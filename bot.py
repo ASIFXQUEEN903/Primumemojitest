@@ -6,21 +6,22 @@ API_ID = 6435225
 API_HASH = "4e984ea35f854762dcde906dce426c2d"
 BOT_TOKEN = "8373170298:AAEVgziTeeHsKBCCK2X-_7pCcJ_kaeroz5A"
 
-CUSTOM_EMOJI_ID = 6289579292565178263
+CUSTOM_EMOJI_ID = 6289579292565178263  # INT only
 
 app = Client("emoji_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 @app.on_message(filters.command("start"))
 async def start_handler(client, message):
 
-    text = "Hi I am custom emoji 🙂"
+    base_text = "Hi I am custom emoji "
+    text = base_text + "⚡"   # Safe visible placeholder
 
     await message.reply_text(
         text,
         entities=[
             MessageEntity(
                 type=MessageEntityType.CUSTOM_EMOJI,
-                offset=len("Hi I am custom emoji "),
+                offset=len(base_text),
                 length=1,
                 custom_emoji_id=CUSTOM_EMOJI_ID
             )
