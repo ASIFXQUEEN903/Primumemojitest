@@ -1,9 +1,9 @@
 from pyrogram import Client, filters
 from pyrogram.types import MessageEntity
 
-API_ID = 1234567
-API_HASH = "YOUR_API_HASH"
-BOT_TOKEN = "YOUR_BOT_TOKEN"
+API_ID = 6435225
+API_HASH = "4e984ea35f854762dcde906dce426c2d"
+BOT_TOKEN = "8373170298:AAEVgziTeeHsKBCCK2X-_7pCcJ_kaeroz5A"
 
 CUSTOM_EMOJI_ID = "6289579292565178263"
 
