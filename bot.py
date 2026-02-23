@@ -1,5 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import MessageEntity
+from pyrogram.enums import MessageEntityType
 
 API_ID = 6435225
 API_HASH = "4e984ea35f854762dcde906dce426c2d"
@@ -17,14 +18,15 @@ app = Client(
 @app.on_message(filters.command("start"))
 async def start_handler(client, message):
 
-    text = "Hi I am custom emoji A"
-    
+    base_text = "Hi I am custom emoji "
+    text = base_text + "A"
+
     await message.reply_text(
         text,
         entities=[
             MessageEntity(
-                type="custom_emoji",
-                offset=len("Hi I am custom emoji "),  # emoji position
+                type=MessageEntityType.CUSTOM_EMOJI,   # 🔥 FIX HERE
+                offset=len(base_text),
                 length=1,
                 custom_emoji_id=CUSTOM_EMOJI_ID
             )
