@@ -4,9 +4,9 @@ from pyrogram.enums import MessageEntityType
 
 API_ID = 6435225
 API_HASH = "4e984ea35f854762dcde906dce426c2d"
-BOT_TOKEN = "8373170298:AAEVgziTeeHsKBCCK2X-_7pCcJ_kaeroz5A"
+BOT_TOKEN = "8519282511:AAFh9lbDfGlMn2FqjdcIvUsEO_gW8h5yNFw"
 
-CUSTOM_EMOJI_ID = 5449524412756381673  # INT only
+CUSTOM_EMOJI_ID = 5210932667452768696  # INT only
 
 app = Client("emoji_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
