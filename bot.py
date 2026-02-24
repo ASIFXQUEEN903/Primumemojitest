@@ -7,27 +7,29 @@ API_HASH = "4e984ea35f854762dcde906dce426c2d"
 BOT_TOKEN = "8519282511:AAFh9lbDfGlMn2FqjdcIvUsEO_gW8h5yNFw"
 
 # Custom emoji IDs
-CUSTOM_EMOJI_ID_1 = 5210932667452768696  # Balance ke liye
-CUSTOM_EMOJI_ID_2 = 5807498479496337570  # Buy ke liye
+CUSTOM_EMOJI_ID_1 = 5210932667452768696  # Pehla emoji
+CUSTOM_EMOJI_ID_2 = 5807498479496337570  # Dusra emoji
 
 app = Client("emoji_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 @app.on_message(filters.command("start"))
 async def start_handler(client, message):
-    # Simple text - NO emojis in text
-    text = "Hello! Welcome to @veloraotpbot\n\nYour Balance: ₹0.00"
+    # Text mein PLACEHOLDER use karo (space ya dot)
+    text = "Hello!  Welcome to @veloraotpbot\n\nYour Balance: ₹0.00 "
+    #          ^ is space par pehla emoji aayega
+    #                                          ^ is space par dusra emoji aayega
     
-    # Entities ko alag se define karo
+    # Entities define karo
     entities = [
         MessageEntity(
             type=MessageEntityType.CUSTOM_EMOJI,
-            offset=7,  # "Hello! " ke baad (7 characters)
+            offset=7,  # "Hello! " ke baad wali space
             length=1,
             custom_emoji_id=CUSTOM_EMOJI_ID_1
         ),
         MessageEntity(
             type=MessageEntityType.CUSTOM_EMOJI,
-            offset=len("Hello! Welcome to @veloraotpbot\n\nYour Balance: ₹0.00"),  # Exact length
+            offset=len("Hello!  Welcome to @veloraotpbot\n\nYour Balance: ₹0.00 "),  # End mein space
             length=1,
             custom_emoji_id=CUSTOM_EMOJI_ID_2
         )
