@@ -1,4 +1,4 @@
-pyrogram==2.1.24
+https://github.com/pyrogram/pyrogram/archive/refs/tags/v2.1.24.tar.gz
 tgcrypto==1.2.5
 pymongo==4.5.0
 python-dotenv==1.0.0
