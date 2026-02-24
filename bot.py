@@ -1,84 +1,61 @@
 from pyrogram import Client, filters
-from pyrogram.types import MessageEntity, InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, MessageEntity
 from pyrogram.enums import MessageEntityType
 
 API_ID = 6435225
 API_HASH = "4e984ea35f854762dcde906dce426c2d"
 BOT_TOKEN = "8519282511:AAFh9lbDfGlMn2FqjdcIvUsEO_gW8h5yNFw"
 
-# Custom emoji IDs
-CUSTOM_EMOJI_ID_1 = 5210932667452768696  # Pehla emoji
-CUSTOM_EMOJI_ID_2 = 5807498479496337570  # Dusra emoji
+# Primum emoji IDs
+PRIMUM_EMOJI_IDS = {
+    "balance": 5210932667452768696,
+    "buy": 5807498479496337570,
+    "sell": 5210932667452768696,
+    "recharge": 5807498479496337570,
+    "profile": 5210932667452768696,
+    "history": 5807498479496337570,
+    "more": 5210932667452768696,
+    "refer": 5807498479496337570
+}
 
 app = Client("emoji_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 @app.on_message(filters.command("start"))
 async def start_handler(client, message):
-    # Text mein PLACEHOLDER use karo (space ya dot)
-    text = "Hello!  Welcome to @veloraotpbot\n\nYour Balance: ₹0.00 "
-    #          ^ is space par pehla emoji aayega
-    #                                          ^ is space par dusra emoji aayega
+    # Message text mein primum emoji
+    text = "⭐️ Welcome! ⚡️"  # Placeholders
     
-    # Entities define karo
     entities = [
         MessageEntity(
             type=MessageEntityType.CUSTOM_EMOJI,
-            offset=7,  # "Hello! " ke baad wali space
+            offset=0,  # Pehla character
             length=1,
-            custom_emoji_id=CUSTOM_EMOJI_ID_1
+            custom_emoji_id=PRIMUM_EMOJI_IDS["balance"]
         ),
         MessageEntity(
             type=MessageEntityType.CUSTOM_EMOJI,
-            offset=len("Hello!  Welcome to @veloraotpbot\n\nYour Balance: ₹0.00 "),  # End mein space
+            offset=10,  # "Welcome! " ke baad
             length=1,
-            custom_emoji_id=CUSTOM_EMOJI_ID_2
+            custom_emoji_id=PRIMUM_EMOJI_IDS["recharge"]
         )
     ]
     
-    # Buttons
+    # Buttons simple text
     buttons = InlineKeyboardMarkup([
-        [
-            InlineKeyboardButton("💰 Balance", callback_data="balance"),
-            InlineKeyboardButton("🛒 Buy Account", callback_data="buy")
-        ],
-        [
-            InlineKeyboardButton("💸 Sell Accounts", callback_data="sell"),
-            InlineKeyboardButton("⚡ Recharge", callback_data="recharge")
-        ],
-        [
-            InlineKeyboardButton("👤 Profile", callback_data="profile"),
-            InlineKeyboardButton("📜 History", callback_data="history")
-        ],
-        [
-            InlineKeyboardButton("☰ More", callback_data="more"),
-            InlineKeyboardButton("🤝 Refer", callback_data="refer")
-        ]
+        [InlineKeyboardButton("Balance", callback_data="balance"),
+         InlineKeyboardButton("Buy", callback_data="buy")],
+        [InlineKeyboardButton("Sell", callback_data="sell"),
+         InlineKeyboardButton("Recharge", callback_data="recharge")],
+        [InlineKeyboardButton("Profile", callback_data="profile"),
+         InlineKeyboardButton("History", callback_data="history")],
+        [InlineKeyboardButton("More", callback_data="more"),
+         InlineKeyboardButton("Refer", callback_data="refer")]
     ])
     
-    # Message bhejo
     await message.reply_text(
         text=text,
         entities=entities,
         reply_markup=buttons
     )
-
-@app.on_callback_query()
-async def callback_handler(client, callback_query):
-    data = callback_query.data
-    await callback_query.answer()
-    
-    responses = {
-        "balance": "💰 Your Balance: ₹0.00",
-        "buy": "🛒 Buy Account - Coming Soon",
-        "sell": "💸 Sell Accounts - Coming Soon",
-        "recharge": "⚡ Recharge - Coming Soon",
-        "profile": "👤 User Profile",
-        "history": "📜 Transaction History",
-        "more": "☰ More Options",
-        "refer": "🤝 Referral System"
-    }
-    
-    if data in responses:
-        await callback_query.message.reply_text(responses[data])
 
 app.run()
