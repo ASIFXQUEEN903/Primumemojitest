@@ -1,7 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import MessageEntity, InlineKeyboardMarkup, InlineKeyboardButton
 from pyrogram.enums import MessageEntityType
-from pyrogram.types import InputMediaPhoto, InputMediaVideo
 
 API_ID = 6435225
 API_HASH = "4e984ea35f854762dcde906dce426c2d"
@@ -9,102 +8,74 @@ BOT_TOKEN = "8519282511:AAFh9lbDfGlMn2FqjdcIvUsEO_gW8h5yNFw"
 
 # Custom emoji IDs
 CUSTOM_EMOJI_ID_1 = 5210932667452768696  # Balance ke liye
-CUSTOM_EMOJI_ID_2 = 5807498479496337570  # Buy Account ke liye
+CUSTOM_EMOJI_ID_2 = 5807498479496337570  # Buy ke liye
 
 app = Client("emoji_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 @app.on_message(filters.command("start"))
 async def start_handler(client, message):
-    # Welcome message with custom emoji
-    welcome_text = "Hello! " + "🌟" + " Welcome to @veloraotpbot\n\n"
-    balance_text = "Your Balance: ₹0.00 " + "💰"
+    # Simple text - NO emojis in text
+    text = "Hello! Welcome to @veloraotpbot\n\nYour Balance: ₹0.00"
     
-    full_text = welcome_text + balance_text
-    
-    # Custom emoji entities for the message
+    # Entities ko alag se define karo
     entities = [
         MessageEntity(
             type=MessageEntityType.CUSTOM_EMOJI,
-            offset=7,  # "Hello! " ke baad
+            offset=7,  # "Hello! " ke baad (7 characters)
             length=1,
-            custom_emoji_id=5210932667452768696
+            custom_emoji_id=CUSTOM_EMOJI_ID_1
         ),
         MessageEntity(
             type=MessageEntityType.CUSTOM_EMOJI,
-            offset=len(welcome_text + "Your Balance: ₹0.00 "),
+            offset=len("Hello! Welcome to @veloraotpbot\n\nYour Balance: ₹0.00"),  # Exact length
             length=1,
-            custom_emoji_id=5807498479496337570
+            custom_emoji_id=CUSTOM_EMOJI_ID_2
         )
     ]
     
-    # Buttons with custom emojis
+    # Buttons
     buttons = InlineKeyboardMarkup([
         [
-            InlineKeyboardButton(
-                text="💰 Balance",  # Normal emoji placeholder
-                callback_data="balance"
-            ),
-            InlineKeyboardButton(
-                text="🛒 Buy Account",  # Normal emoji placeholder
-                callback_data="buy"
-            )
+            InlineKeyboardButton("💰 Balance", callback_data="balance"),
+            InlineKeyboardButton("🛒 Buy Account", callback_data="buy")
         ],
         [
-            InlineKeyboardButton(
-                text="💸 Sell Accounts",
-                callback_data="sell"
-            ),
-            InlineKeyboardButton(
-                text="⚡ Recharge",
-                callback_data="recharge"
-            )
+            InlineKeyboardButton("💸 Sell Accounts", callback_data="sell"),
+            InlineKeyboardButton("⚡ Recharge", callback_data="recharge")
         ],
         [
-            InlineKeyboardButton(
-                text="👤 Profile",
-                callback_data="profile"
-            ),
-            InlineKeyboardButton(
-                text="📜 History",
-                callback_data="history"
-            )
+            InlineKeyboardButton("👤 Profile", callback_data="profile"),
+            InlineKeyboardButton("📜 History", callback_data="history")
         ],
         [
-            InlineKeyboardButton(
-                text="☰ More",
-                callback_data="more"
-            ),
-            InlineKeyboardButton(
-                text="🤝 Refer",
-                callback_data="refer"
-            )
+            InlineKeyboardButton("☰ More", callback_data="more"),
+            InlineKeyboardButton("🤝 Refer", callback_data="refer")
         ]
     ])
     
-    # Send message with buttons
+    # Message bhejo
     await message.reply_text(
-        full_text,
+        text=text,
         entities=entities,
         reply_markup=buttons
     )
 
-# Callback query handler
 @app.on_callback_query()
 async def callback_handler(client, callback_query):
     data = callback_query.data
+    await callback_query.answer()
     
     responses = {
         "balance": "💰 Your Balance: ₹0.00",
-        "buy": "🛒 Buy Account section",
-        "sell": "💸 Sell Accounts section", 
-        "recharge": "⚡ Recharge section",
-        "profile": "👤 Your Profile",
+        "buy": "🛒 Buy Account - Coming Soon",
+        "sell": "💸 Sell Accounts - Coming Soon",
+        "recharge": "⚡ Recharge - Coming Soon",
+        "profile": "👤 User Profile",
         "history": "📜 Transaction History",
-        "more": "☰ More options",
-        "refer": "🤝 Refer a Friend"
+        "more": "☰ More Options",
+        "refer": "🤝 Referral System"
     }
     
-    await callback_query.answer()  # Button press notification
     if data in responses:
         await callback_query.message.reply_text(responses[data])
 
